@@ -16,3 +16,6 @@ with ESP32,PlatformIO with Arduino framework and FreeRTOS
 AHRS For Madgwick
 4- [PaulStoffregen's Madgwick AHRS implementation](https://github.com/arduino-libraries/MadgwickAHRS/tree/master)
 5- [Read and Plot Real-Time Data from BNO055 Sensor in NDOF Mode](https://www.mathworks.com/help/matlab/supportpkg/read-and-plot-real-time-data-from-bno055-sensor-in-ndof-mode.html)
+
+## References  IMU
+1-[Simulink model  :  IMU Sensor Fusion with Simulink](https://www.mathworks.com/help/nav/ug/imu-sensor-fusion-with-simulink.html)

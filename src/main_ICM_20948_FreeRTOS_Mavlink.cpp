@@ -1,5 +1,5 @@
 // To Upload and run : pio run -t upload -e [env_defined_in_platformio.ini] in our case :
-// pio run -t upload -e main_ICM_20948
+// pio run -t upload -e main_ICM_20948_FreeRTOS_Mavlink
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -31,8 +31,8 @@ static const char *LOGGER_TAG = "main_ICM_20948";
 ICM_20948_I2C myICM;       // Create an ICM_20948_I2C object
 #define ICM20948_ADDR 0x68 // ICM20948_ADDR : 0x68 is default I2C address
 
-int16_t Task_ReadImu_ICM_20948_SampleRate_ms = 20; // in milliseconds : 1 ms = 1 kHz
-int16_t Task_Task_sendMavlink_SampleRate_ms = 20;  // in milliseconds : 1 ms = 1 kHz
+int16_t Task_ReadImu_ICM_20948_SampleRate_ms = 50; // in milliseconds : 1 ms = 1 kHz
+int16_t Task_Task_sendMavlink_SampleRate_ms = 50;  // in milliseconds : 1 ms = 1 kHz
 
 void Task_readImu_ICM_20948(void *pvParameters)
 {
@@ -64,9 +64,9 @@ void Task_readImu_ICM_20948(void *pvParameters)
   }
 
   // Calculate average
-  float gyro_avg_x = gyro_sum_x / iter;
-  float gyro_avg_y = gyro_sum_y / iter;
-  float gyro_avg_z = gyro_sum_z / iter;
+  float gyro_bias_x = gyro_sum_x / iter;
+  float gyro_bias_y = gyro_sum_y / iter;
+  float gyro_bias_z = gyro_sum_z / iter;
 
   while (1)
   {
@@ -81,7 +81,7 @@ void Task_readImu_ICM_20948(void *pvParameters)
       execution_time_us = end_us - start_us;
 
       Serial.printf("Acc (MG)  : X: %5.2f, Y: %5.2f, Z: %5.2f,", myICM.accX(), myICM.accY(), myICM.accZ());
-      Serial.printf("Gyr (DPS) : X: %5.2f, Y: %5.2f, Z: %5.2f,", myICM.gyrX(), myICM.gyrY(), myICM.gyrZ());
+      Serial.printf("Gyr (DPS) : X: %5.2f, Y: %5.2f, Z: %5.2f,", myICM.gyrX() - (int16_t)(gyro_bias_x), myICM.gyrY()- (int16_t)(gyro_bias_y), myICM.gyrZ()- (int16_t)(gyro_bias_z));
       Serial.printf("Mag (uT)  : X: %5.2f, Y: %5.2f, Z: %5.2f,", myICM.magX(), myICM.magY(), myICM.magZ());
       Serial.printf("Temp (°C) : %5.2f", myICM.temp());
       Serial.println("");
@@ -110,7 +110,7 @@ void Task_sendMavlink(void *const pvParameters)
   float sine_value = 0.0f;
   float cosine_value = 0.0f;
 
-  // Convert gyroscope degrees/sec to radians/sec
+  // Convert gyroscope degrees/sec to milli radians/sec
   float deg_to_mrad = 0.0174533f * 1000.0f;
 
   for (;;)
@@ -174,3 +174,5 @@ void setup()
 void loop()
 {
 }
+
+ 
