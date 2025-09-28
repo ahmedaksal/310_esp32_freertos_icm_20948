@@ -4,3 +4,6 @@
 .vscode/launch.json
 .vscode/ipch
 src/wifi_pass_config.h
+
+*/slprj/*
+*.slxc

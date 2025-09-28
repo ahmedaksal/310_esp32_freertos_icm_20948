@@ -5,7 +5,10 @@ dialect = mavlinkdialect("common.xml");
 
 % Create mavlinkio and connect via UDP on port 14550 (match QGC)
 mavlink = mavlinkio(dialect);
-connect(mavlink, "UDP", "LocalPort", 14445);
+% connect(mavlink, "UDP", "LocalPort", 14445);
+connect(mavlink, "UDP", "LocalPort", 14440);
+
+sampleTime = 1/500;
 
 %% List Topics
 listTopics(mavlink)

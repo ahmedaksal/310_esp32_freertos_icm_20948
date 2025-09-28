@@ -68,6 +68,8 @@ void Task_readImu_ICM_20948(void *pvParameters)
   float gyro_bias_y = gyro_sum_y / iter;
   float gyro_bias_z = gyro_sum_z / iter;
 
+  Serial.printf("Bias Gyro (MG)  : X: %5.2f, Y: %5.2f, Z: %5.2f,", gyro_bias_x, gyro_bias_y, gyro_bias_z);
+
   while (1)
   {
     // Ask for new data

@@ -200,8 +200,8 @@ void send_mavlink_SCALED_IMU(uint32_t time_boot_ms,
     scaled_imu.zgyro = zgyro; /*< [mrad/s] Angular speed around Z axis*/
 
     scaled_imu.xmag = xmag; /*< [mT] X Magnetic field*/
-    scaled_imu.ymag = ymag; /*< [mT] Y Magnetic field*/
-    scaled_imu.zmag = zmag; /*< [mT] Z Magnetic field*/
+    scaled_imu.ymag = -ymag; /*< [mT] Y Magnetic field*/
+    scaled_imu.zmag = -zmag; /*< [mT] Z Magnetic field*/
 
     mavlink_msg_scaled_imu_encode(system_id, component_id, &mvl_tx_message, &scaled_imu);
     send_mavlink(&mvl_tx_message);
